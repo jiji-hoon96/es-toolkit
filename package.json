@@ -171,6 +171,7 @@
     }
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
     "@arethetypeswrong/cli": "^0.15.3",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.1",
@@ -223,8 +224,11 @@
     "build": "rollup -c rollup.config.mjs && ./.scripts/postbuild.sh",
     "test": "vitest --coverage --typecheck",
     "bench": "vitest bench",
-    "lint": "eslint --config eslint.config.mjs",
-    "format": "prettier --write .",
-    "transform": "jscodeshift -t ./.scripts/tests/transform-lodash-test.ts $0 && prettier --write $0"
+    "lint": "biome lint .",
+    "lint:old": "eslint --config eslint.config.mjs",
+    "format": "biome format --write .",
+    "format:old": "prettier --write .",
+    "check": "biome check .",
+    "transform": "jscodeshift -t ./.scripts/tests/transform-lodash-test.ts $0 && biome format --write $0"
   }
 }
