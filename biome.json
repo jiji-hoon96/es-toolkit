@@ -64,7 +64,8 @@
         "useConst": "error",
         "useDefaultParameterLast": "error",
         "useEnumInitializers": "error",
-        "useSelfClosingElements": "error"
+        "useSelfClosingElements": "error",
+        "useConsistentArrayType": "error"
       },
       "complexity": {
         "noForEach": "warn",
