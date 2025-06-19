@@ -1,15 +1,42 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 120
+    "lineWidth": 120,
+    "lineEnding": "lf",
+    "bracketSpacing": true,
+    "bracketSameLine": false
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
-      "arrowParentheses": "asNeeded"
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 120
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    },
+    "globals": [
+      "document", "window", "navigator", "jest", "describe", "test", "it", 
+      "expect", "process", "global", "beforeEach", "afterEach", "beforeAll", 
+      "afterAll", "vi"
+    ]
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
+    },
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 120
     }
   },
   "linter": {
@@ -17,14 +44,44 @@
     "rules": {
       "recommended": true,
       "correctness": {
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "error"
       },
       "suspicious": {
         "noConsole": "error",
-        "noExplicitAny": "warn"
+        "noExplicitAny": "warn",
+        "noDoubleEquals": "error",
+        "noPrototypeBuiltins": "error",
+        "noArrayIndexKey": "error",
+        "noAssignInExpressions": "error",
+        "noCommentText": "warn",
+        "noConfusingVoidType": "error"
       },
       "style": {
-        "useBlockStatements": "error"
+        "useBlockStatements": "error",
+        "noImplicitBoolean": "error",
+        "useNamingConvention": "error",
+        "useConst": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error"
+      },
+      "complexity": {
+        "noForEach": "warn",
+        "useSimplifiedLogicExpression": "error",
+        "noStaticOnlyClass": "off",
+        "useLiteralKeys": "off"
+      },
+      "performance": {
+        "recommended": true,
+        "noDelete": "error"
+      },
+      "security": {
+        "recommended": true
+      },
+      "a11y": {
+        "recommended": true,
+        "useMediaCaption": "error"
       }
     }
   }
