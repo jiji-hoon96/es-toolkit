@@ -24,9 +24,21 @@
       "unsafeParameterDecoratorsEnabled": true
     },
     "globals": [
-      "document", "window", "navigator", "jest", "describe", "test", "it", 
-      "expect", "process", "global", "beforeEach", "afterEach", "beforeAll", 
-      "afterAll", "vi"
+      "document",
+      "window",
+      "navigator",
+      "jest",
+      "describe",
+      "test",
+      "it",
+      "expect",
+      "process",
+      "global",
+      "beforeEach",
+      "afterEach",
+      "beforeAll",
+      "afterAll",
+      "vi"
     ]
   },
   "json": {
@@ -40,6 +52,7 @@
     }
   },
   "linter": {
+    "includes": ["src/**/*.ts"],
     "enabled": true,
     "rules": {
       "recommended": true,
