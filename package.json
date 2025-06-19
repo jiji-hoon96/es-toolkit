@@ -224,7 +224,7 @@
     "build": "rollup -c rollup.config.mjs && ./.scripts/postbuild.sh",
     "test": "vitest --coverage --typecheck",
     "bench": "vitest bench",
-    "lint": "biome lint --apply-unsafe .",
+    "lint": "biome lint --fix .",
     "lint:vue": "eslint --config eslint.config.mjs 'src/**/*.vue'",
     "lint:all": "yarn lint && yarn lint:vue",
     "format": "biome format --write .",
