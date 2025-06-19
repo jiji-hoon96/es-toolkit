@@ -1,0 +1,12 @@
+# build output
+dist/
+coverage/
+.yarn/
+node_modules/
+
+# type definition files
+**/*.d.ts
+**/*.d.mts
+
+# cache files
+**/cache/**
