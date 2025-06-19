@@ -1,13 +1,12 @@
 // @ts-check
-import fs from 'node:fs';
-import { createRequire } from 'node:module';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import dtsPlugin from 'rollup-plugin-dts';
-import terserPlugin from '@rollup/plugin-terser';
-import tsPlugin from '@rollup/plugin-typescript';
+import fs from "node:fs";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import dtsPlugin from "rollup-plugin-dts";
+import terserPlugin from "@rollup/plugin-terser";
+import tsPlugin from "@rollup/plugin-typescript";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
@@ -16,38 +15,40 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
  *   publishConfig: { browser: string };
  * }}
  */
-const packageJson = createRequire(import.meta.url)('./package.json');
+const packageJson = createRequire(import.meta.url)("./package.json");
 
-const testPatterns = ['**/*.bench.ts', '**/*.spec.ts', '**/*.test.ts'];
+const testPatterns = ["**/*.bench.ts", "**/*.spec.ts", "**/*.test.ts"];
 
 export default () => {
-  clearDir('dist');
+  clearDir("dist");
 
-  const entrypoints = Object.values(packageJson.exports).filter(f => /^(\.\/)?src\//.test(f) && f.endsWith('.ts'));
+  const entrypoints = Object.values(packageJson.exports).filter(
+    (f) => /^(\.\/)?src\//.test(f) && f.endsWith(".ts"),
+  );
 
   return [
     libBuildOptions({
-      format: 'esm',
-      extension: 'mjs',
+      format: "esm",
+      extension: "mjs",
       entrypoints,
-      outDir: 'dist',
+      outDir: "dist",
       sourcemap: false,
     }),
     libBuildOptions({
-      format: 'cjs',
-      extension: 'js',
+      format: "cjs",
+      extension: "js",
       entrypoints,
-      outDir: 'dist',
+      outDir: "dist",
       sourcemap: false,
     }),
     declarationOptions({
       entrypoints,
-      outDir: 'dist',
+      outDir: "dist",
     }),
     browserBuildConfig({
-      inputFile: './src/compat/index.ts',
+      inputFile: "./src/compat/index.ts",
       outFile: packageJson.publishConfig.browser,
-      name: '_',
+      name: "_",
       sourcemap: true,
     }),
   ];
@@ -62,8 +63,14 @@ export default () => {
  *   sourcemap: boolean;
  * }) => import('rollup').RollupOptions}
  */
-function libBuildOptions({ entrypoints, extension, format, outDir, sourcemap }) {
-  const isESM = format === 'esm';
+function libBuildOptions({
+  entrypoints,
+  extension,
+  format,
+  outDir,
+  sourcemap,
+}) {
+  const isESM = format === "esm";
 
   return {
     input: mapInputs(entrypoints),
@@ -86,7 +93,7 @@ function libBuildOptions({ entrypoints, extension, format, outDir, sourcemap }) 
       // leading to a result that is a mirror of the input module graph.
       preserveModules: true,
       sourcemap,
-      generatedCode: 'es2015',
+      generatedCode: "es2015",
       // Hoisting transitive imports adds bare imports in modules,
       // which can make imports by JS runtimes slightly faster,
       // but makes the generated code harder to follow.
@@ -127,11 +134,11 @@ function browserBuildConfig({ inputFile, outFile, name, sourcemap }) {
           compress: { sequences: false },
         }),
       ],
-      format: 'iife',
+      format: "iife",
       name,
       file: outFile,
       sourcemap,
-      generatedCode: 'es2015',
+      generatedCode: "es2015",
     },
   };
 }
@@ -145,20 +152,20 @@ function declarationOptions({ entrypoints, outDir }) {
     input: mapInputs(entrypoints),
     output: [
       {
-        format: 'esm',
+        format: "esm",
         dir: outDir,
-        generatedCode: 'es2015',
-        ...fileNames('d.mts'),
+        generatedCode: "es2015",
+        ...fileNames("d.mts"),
         preserveModules: true,
-        preserveModulesRoot: 'src',
+        preserveModulesRoot: "src",
       },
       {
-        format: 'cjs',
+        format: "cjs",
         dir: outDir,
-        generatedCode: 'es2015',
-        ...fileNames('d.ts'),
+        generatedCode: "es2015",
+        ...fileNames("d.ts"),
         preserveModules: true,
-        preserveModulesRoot: 'src',
+        preserveModulesRoot: "src",
       },
     ],
   };
@@ -167,11 +174,14 @@ function declarationOptions({ entrypoints, outDir }) {
 /** @type {(srcFiles: string[]) => Record<string, string>} */
 function mapInputs(srcFiles) {
   return Object.fromEntries(
-    srcFiles.map(file => [file.replace(/^(\.\/)?src\//, '').replace(/\.[cm]?(js|ts)$/, ''), join(__dirname, file)])
+    srcFiles.map((file) => [
+      file.replace(/^(\.\/)?src\//, "").replace(/\.[cm]?(js|ts)$/, ""),
+      join(__dirname, file),
+    ]),
   );
 }
 
-function fileNames(extension = 'js') {
+function fileNames(extension = "js") {
   return {
     entryFileNames: `[name].${extension}`,
     chunkFileNames: `_chunk/[name]-[hash:6].${extension}`,

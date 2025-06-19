@@ -1,3 +1,4 @@
+import prettier from "eslint-plugin-prettier/recommended";
 import pluginVue from "eslint-plugin-vue";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -14,8 +15,11 @@ export default [
       "**/*.d.ts",
       "**/*.tgz",
       "node_modules/**",
+      ".scripts/**",
+      "src/**/*.{js,ts}",
     ],
   },
+
   {
     files: ["**/*.vue"],
     languageOptions: {
@@ -42,6 +46,26 @@ export default [
       "@typescript-eslint/no-unused-vars": [
         "error",
         { ignoreRestSiblings: true },
+      ],
+      "vue/component-tags-order": [
+        "error",
+        { order: ["template", "script", "style"] },
+      ],
+      "vue/no-v-html": "error",
+    },
+  },
+
+  {
+    files: ["src/**/{index,compat}.ts"],
+    plugins: {
+      prettier: prettier,
+    },
+    rules: {
+      "prettier/prettier": [
+        "error",
+        {
+          plugins: [require.resolve("prettier-plugin-sort-re-exports")],
+        },
       ],
     },
   },
