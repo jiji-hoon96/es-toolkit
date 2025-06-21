@@ -40,10 +40,29 @@ import { isPlainObject } from '../predicate/isPlainObject.ts';
  * console.log(result);
  * // Output: { a: [1, 2, 3] }
  */
+
+const DANGEROUS_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+function hasPrototypePollution(obj: any): boolean {
+  if (obj == null || typeof obj !== 'object') {
+    return false;
+  }
+
+  for (const key of DANGEROUS_KEYS) {
+    if (Object.hasOwn(obj, key)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function merge<T extends Record<PropertyKey, any>, S extends Record<PropertyKey, any>>(
   target: T,
   source: S
 ): T & S {
+  if (hasPrototypePollution(source)) {
+    throw new Error('Prototype pollution attempt detected');
+  }
   const sourceKeys = Object.keys(source) as Array<keyof S>;
 
   for (let i = 0; i < sourceKeys.length; i++) {
